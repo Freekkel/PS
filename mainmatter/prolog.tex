@@ -24,7 +24,7 @@ Hinweis: YAP und andere Prolog Interpreter erkennen 'mia' = mia. An und geben Ye
 \begin{itemize}
 	\item Variablen beginnen mit A-Z oder \_ 
 	\item bestehen aus den Zeichen a-z, A-Z, 0-9, \_
-\end{itemize}
+\end{itemize}\newpage
 \section{Notation}
 Im Nachfolgenden gibt es einen kleinen Überblick über die Notationen in Prolog.
 \subsection{Und / Oder in Regeln}\qquad\\
@@ -147,7 +147,7 @@ f(A1,A1).
 
 Beispiel 4:
 X = t(X).
-\end{lstlisting}
+\end{lstlisting}\newpage
 \textbf{Lösungen:}\qquad\\
 \begin{enumerate}
 	\item Unifikation ist möglich da Whom = fred und What = tomatoes. Bis hier hin keine große Verwunderung.
@@ -173,7 +173,7 @@ G :- E,F,B,C,D,K\\
 \qquad\\
 PROLOG geht dabei von oben nach unten vor, wenn mehrere vergleichbare Formeln vorhanden sind, so wird die \grqq oberste\grqq{} genommen, bei Nichterfolg wird die nächste versucht.\\
 Sind mehrere Formel durch UND verknüpft, so wird dabei von links nach rechts vorgegangen, solange eine Beantwortung möglich ist. Bei verschiedenen möglichen Antworten wird immer die zuerst gefundene ausgegeben.
-
+\newpage
 \subsection{Ein Beispiel zur Vorgehensweise}\qquad\\
 Gegebene Wissensbasis:\\
 legs(X,2) :- mammal(X),arms(X,2).\\
@@ -213,6 +213,7 @@ Was passiert.
 	Exit:  (7)  accLen([b,  c],  1,  3)  ?
 	Exit:  (6)  accLen([a,  b,  c],  0,  3)  ? 
 \end{lstlisting}
+\newpage\qquad\\
 Da der Rückgabewert nicht nochmal berechnet werden muss während des Backtrackings, sondern direkt bekannt ist, sind Akkumulatoren Programme effizienter als andere. \\
 Besser erkenntlich wird dies wenn man sich folgendes Beispiel anschaut und durch den Kopf gehen lässt Mit hilfe des vorherigen Beispiels. \\
 \begin{lstlisting}[language=Prolog] 
@@ -236,6 +237,7 @@ No.
 \end{lstlisting}
 Es wird kein Backtracking mehr betreiben um weitere unnötige Lösungen zu finden. \\
 Dies war z.B. Hilfreich um bei dem Affen Beispiel in der Vorlesung den Affen, nachdem er die Banane hatte nicht noch weiter im Raum herumlaufen zu lassen. \\
+\newpage
 \subsection{Roter Cut}
 \begin{lstlisting}[language=Prolog] 
 max(X,Y,Y) :- X =< Y, !.
@@ -243,7 +245,7 @@ max(X,_,X).
 ?- max(2,3,2).
 Yes.
 \end{lstlisting}
-Hier ist die Lösung offensichtlich Falsch, jedoch ist X=<Y richtig und danach erfolgt keine Prüfung mehr, auch nicht ob Y==Y ist. Dadurch ist hier die richtige und auch weitere Lösungen abgeschnitten. Also ein Roter Cut.
+Hier ist die Lösung offensichtlich Falsch, jedoch ist X=<Y richtig und danach erfolgt keine Prüfung mehr, auch nicht ob Y==Y ist. Dadurch ist hier die richtige und auch weitere Lösungen abgeschnitten. Also ein Roter Cut.\\
 
-\section{Status}
+\section{Status}\qquad\\
 Hier gibt es lediglich die Möglichkeit auf die Vorlesung zu verweisen, denn dort wurden alle Status aufgezeigt, in die der Affe kommen kann. Da dies lediglich ein Funktor ist, welcher ausgegeben und zu weiteren vergleichen genutzt wird, ist es kaum Sinnvoll in diesem Dokument darauf einzugehen. 
