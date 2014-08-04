@@ -113,7 +113,7 @@ Es gibt insgesamt 2 Fakten in dieser Wissensbasis. happy(yolanda) und listen2Mus
 Die letzten Beiden Zeilen in diesem Beispiel sind Regeln. diese Zeichnen sich durch :- aus und können auch Variable gehalten werden. Die erste Regel (listens2Music(yolanda):-  happy(yolanda).) wird per Pattern Matching (siehe dazu auch das Pattern Matching in Haskell$^{\ref{sec:hpm}}$) lediglich auf die Anfrage\\ ?-listen2Music(yolanda) reagieren. Alle anderen Fälle fängt die zweite Regel ab. Hier werden die Eingaben, mit X Unifiziert$^{\ref{sec:unifikation}}$. \\
 Die Regel splittet sich in einen Kopf und einen Körper auf. Alles was vor dem :- steht ist der Kopf und alles was danach steht ist der Körper. 
 \section{Rekursionen}\qquad\\
-Auch in Prolog gibt es Rekursionen und diese werden stark genutzt. Damit können zum Beispiel Listen durchgearbeitet werden um zu schauen, wie lange eine Liste ist. Listen könen hier beliebige Datentypen enthalten und sind nicht Typisiert wie in Haskell. 
+Auch in Prolog gibt es Rekursionen und diese werden stark genutzt. Damit können zum Beispiel Listen durchgearbeitet werden um zu schauen, wie lange eine Liste ist. Listen können hier beliebige Datentypen enthalten und sind nicht Typisiert wie in Haskell. 
 \begin{lstlisting}[language=Prolog] 
 len([],0) .
 len([_|T],N):-len(T,X) ,N is X + 1.
@@ -131,7 +131,7 @@ Die erste Zeile in diesem Beispiel ist die Abbruch Bedingung. Diese wird wahr, w
 Es ist \textbf{extrem wichtig}, dass die Abbruchbedingung als erste bei einer Rekursion genannt wird. Denn Prolog arbeitet von oben nach unten. Wenn wir zuerst die Rekursion (Zeile 2) geschrieben hätten würde dies zu einem Fehler führen. \\
 Beginne bei einer Rekursion immer zuerst mit der Abbruchbedingung, und stelle den rekursiven Aufruf so weit wie möglich ans Ende der rekursiven Regel.
 \section{Unifikation}\label{sec:unifikation}\qquad\\
-Das Ergebnis einer Unifikation ist eine Liste von Variablenersetzungen, die man vornehmen muss, um zwei Ausdrücke identisch zu machen. Diese Liste ist zustandsfrei (für alle Zeiten gleich und unveränderlich).\\ Prolog legt im Hintergrund jede Variable nach einem bestimmten Muster an. Dieses Muster ist \_5874 Wobei die Zahlen abweichen können. 
+Das Ergebnis einer Unifikation ist eine Liste von Variablenersetzungen, die man vornehmen muss, um zwei Ausdrücke identisch zu machen. Diese Liste ist Zustandsfrei (für alle Zeiten gleich und unveränderlich).\\ Prolog legt im Hintergrund jede Variable nach einem bestimmten Muster an. Dieses Muster ist \_5874 Wobei die Zahlen abweichen können. 
 \begin{lstlisting}[language=Prolog] 
 Beispiel 1:
 eats(fred,tomatoes).
@@ -155,10 +155,95 @@ X = t(X).
 	\item Unifikation ist möglich. Denn A1 wird mit foo unifiziert und da L auch eine Variable ist, kann diese auch mit A1 und somit mit foo unifiziert werden. 
 	\item Unifikation wird endlos weiter geführt. Denn X = t(X) = t(t(X)) \dots
 \end{enumerate}
-
-
 \section{Resolution}
+\subsection{Was ist Resolution?}\qquad\\
+Resolution ist die Vorgehensweise von PROLOG bei der Lösung von Anfragen.\\
+Ob eine Zielanweisung zutrifft/erfüllbar ist wird durch den Widerspruch bewiesen. 
+\subsection{Wie funktioniert Resolution ?}\qquad\\
+Grundvoraussetzung für eine korrekte Arbeitsweise der Resolution ist eine Wissensbasis mit vollständigen, nicht widersprüchlichen Formeln. Da das Resolutionsverfahren korrekt ist wird es immer aus einer Formelmenge einen Widerspruch ableiten wenn sich darin einer befindet.\\
+Die Anfrage an eine Wissensbasis ist nichts anderes als dass eine negierte Formel in die bereits vorhandene Menge gebracht wird. Trifft die Anfrage zu, so findet die Resolution einen Widerspruch und beweist somit deren Richtigkeit.\\
+Dabei benutzt die Resolution das sogenannte Ableitungsverfahren. Dieses regelt das Zusammenfassen von Klauseln und geht dabei so vor:\\
+Wenn der Kopf der 1.Klausel im Körper der 2.Klausel vorkommt, so kann an dieser Stelle der Körper der 1.Klausel eingesetzt werden.\\
+\qquad\\
+Zur Verdeutlichung:\\
+1.Klausel: A :- B,C,D\\
+2.Klausel: G :- E,F,A,K\\
+ergibt\\
+G :- E,F,B,C,D,K\\
+\qquad\\
+PROLOG geht dabei von oben nach unten vor, wenn mehrere vergleichbare Formeln vorhanden sind, so wird die \grqq oberste\grqq{} genommen, bei Nichterfolg wird die nächste versucht.\\
+Sind mehrere Formel durch UND verknüpft, so wird dabei von links nach rechts vorgegangen, solange eine Beantwortung möglich ist. Bei verschiedenen möglichen Antworten wird immer die zuerst gefundene ausgegeben.
 
-\section{Akkumulatoren}
-\section{Cut}
+\subsection{Ein Beispiel zur Vorgehensweise}\qquad\\
+Gegebene Wissensbasis:\\
+legs(X,2) :- mammal(X),arms(X,2).\\
+legs(X,4) :- mammal(X), arms(X,0).\\
+mammal(horse).\\
+arms(horse,0).\\
+\qquad\\
+Stellt man nun die Anfrage:\\
+?- legs(horse,4).\\
+\qquad\\
+geht PROLOG folgendermaßen vor:\\
+diese Anfrage entspricht dem Kopf der 2. Regel, wenn man  nun X mit horse "unifiziert" und den Kopf durch den Körper der Regel ersetzt erhält man folgendes\\
+:- mammal(horse), arms(horse,0).\\
+nun wird mammal(horse)(da es ganz links steht kommt es zuerst dran) mit dem Fakt mammal(horse). aus der Wissenbasis 'gestrichen'.\\
+Ebendies passiert auch mit dem arms(horse,0) welches nach der ersten "Streichung" geblieben ist und nun gestrichen wird.\\
+Übrig bleibt die leere Klausel, d.h. der Widerspruch, womit die Zielanweisung als 'wahr' bewiesen wäre. 
+\section{Akkumulatoren}\qquad\\
+Akkumulatoren ist eine tolle Möglichkeit Variablen hoch zählen zu lassen, während eine Liste durchgegangen wird. Hier ein kleines Beispiel zur Berechnung der Länge einer Liste. \\
+\begin{lstlisting}[language=Prolog] 
+acclen([],A,A).
+accLen([_|T],A,L):- Anew is A + 1, accLen(T,Anew,L).
+
+Was passiert.
+?-  accLen([a,b,c],0,L).
+	Call:  (6)  accLen([a,  b,  c],  0,  _G449)  ?
+	Call:  (7)  _G518  is  0+1  ?
+	Exit:  (7)  1  is  0+1  ?
+	Call:  (7)  accLen([b,  c],  1,  _G449)  ?
+	Call:  (8)  _G521  is  1+1  ?
+	Exit:  (8)  2  is  1+1  ?
+	Call:  (8)  accLen([c],  2,  _G449)  ?
+	Call:  (9)  _G524  is  2+1  ?
+	Exit:  (9)  3  is  2+1  ?
+	Call:  (9)  accLen([],  3,  _G449)  ?
+	Exit:  (9)  accLen([],  3,  3)  ?
+	Exit:  (8)  accLen([c],  2,  3)  ?
+	Exit:  (7)  accLen([b,  c],  1,  3)  ?
+	Exit:  (6)  accLen([a,  b,  c],  0,  3)  ? 
+\end{lstlisting}
+Da der Rückgabewert nicht nochmal berechnet werden muss während des Backtrackings, sondern direkt bekannt ist, sind Akkumulatoren Programme effizienter als andere. \\
+Besser erkenntlich wird dies wenn man sich folgendes Beispiel anschaut und durch den Kopf gehen lässt Mit hilfe des vorherigen Beispiels. \\
+\begin{lstlisting}[language=Prolog] 
+accRev([H|T],A,R):-accRev(T,[H|A],R).
+accRev([],A,A).
+rev(L,R):-accRev(L,[],R).
+\end{lstlisting}
+\section{Cut}\qquad\\
+Das Prädikat Cut (Symbol !) wird verwendet, um unnötiges Backtracking zu verhindern. Der Cut ist stets erfolgreich.\\
+\subsection{Wirkung:}\qquad\\
+Wenn Prolog bei seiner Beweissuche den Cut (!) erreicht, dann können Entscheidungen links von dem Cut nicht mehr rückgängig gemacht werde.
+\subsection{Arten:}\qquad\\
+Ein grüner Cut schneidet Zweige des Suchbaumes ab, die keine Lösungen enthalten.\\
+Ein roter Cut schneidet Zweige des Suchbaumes ab, die Lösungen enthalten. Diesen Cut sollte man vermeiden.
+\subsection{Grüner Cut:}
+\begin{lstlisting}[language=Prolog] 
+max(X,Y,Z) :- X =< Y, !, Z=Y.
+max(X,_,X).
+?- max(2,3,2).
+No.
+\end{lstlisting}
+Es wird kein Backtracking mehr betreiben um weitere unnötige Lösungen zu finden. \\
+Dies war z.B. Hilfreich um bei dem Affen Beispiel in der Vorlesung den Affen, nachdem er die Banane hatte nicht noch weiter im Raum herumlaufen zu lassen. \\
+\subsection{Roter Cut}
+\begin{lstlisting}[language=Prolog] 
+max(X,Y,Y) :- X =< Y, !.
+max(X,_,X).
+?- max(2,3,2).
+Yes.
+\end{lstlisting}
+Hier ist die Lösung offensichtlich Falsch, jedoch ist X=<Y richtig und danach erfolgt keine Prüfung mehr, auch nicht ob Y==Y ist. Dadurch ist hier die richtige und auch weitere Lösungen abgeschnitten. Also ein Roter Cut.
+
 \section{Status}
+Hier gibt es lediglich die Möglichkeit auf die Vorlesung zu verweisen, denn dort wurden alle Status aufgezeigt, in die der Affe kommen kann. Da dies lediglich ein Funktor ist, welcher ausgegeben und zu weiteren vergleichen genutzt wird, ist es kaum Sinnvoll in diesem Dokument darauf einzugehen. 
