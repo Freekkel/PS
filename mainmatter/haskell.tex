@@ -243,7 +243,7 @@ Als nächstes wird eine Rekursive Datenstruktur definiert und mit deriving(Show)
 \begin{lstlisting}[language=Haskell]  
 data Tree a = EmptyTree | Node a (Tree a) (Tree a) deriving (Show, Read, Eq)  
 \end{lstlisting}
-\section{Pattern Matching}\qquad\\
+\section{Pattern Matching}\label{sec:hpm}\qquad\\
 Beim Pattern Matching handelt es sich um die Möglichkeit in eine Funktion Abzweigungen einzubauen, aufgrund von bestimmten Inhalten einer Variable. Davon wird exzessiv in Prolog$^{\ref{sec:Prolog}}$ gebraucht gemacht. \\
 Das Pattern Matching ist eine effiziente Art zu programmieren, wenn man wenige unterschiedliche Werte hat, auf die geprüft werden muss. Auch kann man damit gut Abbruchbedingungen erstellen für rekursive Funktionen. Dabei gilt zu beachten, dass von oben nach unten gearbeitet wird. 
 \begin{lstlisting}[language=Haskell]
