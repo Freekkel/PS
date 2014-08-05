@@ -15,8 +15,8 @@ Um ein kleines Programm zu schreiben, was mehr tut, als lediglich Sachen auszuge
 \begin{lstlisting}[language=Haskell]  
 main = 	do
 	print "What is your name?"
-	name <- getLine
-	print("Hello" ++ name ++ "!")
+	Name <- getLine
+	print("Hello" ++ Name ++ "!")
 	-- main 
 \end{lstlisting}
 \qquad\newline
@@ -61,7 +61,7 @@ f :: Num a => a -> a -> a
 \qquad\newline
 Das sind nochmals kryptischer aus, jedoch bedeutet dies nur, dass die Funktion $f$ eine Zahl ($Num a =>"$) vom Typ $Num$ erwartet. Danach hätte es gerne noch eine Zahl und gibt eine Zahl zurück. Welche Typen diese Zahlen haben, wird zur Compilezeit definiert und entsprechend angewandt. Das $a->a->a$ bedeutet, dass alle vom Typ $Num$ sein müssen. Also wenn wir als erstes ein Int eingeben, werden alle $a$ zu einem Int und es werden nur noch Int's erwartet. Vorteil, wir können eine Funktion für unterschiedliche Zahlentypen verwenden, ohne diese jedes mal neu zu definieren. 
 
-Auch können Funktionen weitere Funktionen aufrufen.
+Auch können Funktionen weitere Funktionen aufrufen. g ist in diesem Fall eine Section, da g einen Parameter von f vordefiniert. 
 \newline
 \begin{lstlisting}[language=Haskell]  
 f :: Num a => a -> a -> a 
@@ -158,22 +158,14 @@ Bei diesem Beispiel wird die Funktion mit $f$ 4 5 aufgerufen. Als erstes Ergebni
 \newline
 \begin{lstlisting}[language=Haskell]  
 Klassisches Currying
+sum :: Num a => a -> (a -> a)
 sum x y = x + y
 
 Klassische ugecurriede Version
+sum :: Num a => (a,a) -> a
 sum (x,y) = x + y
 \end{lstlisting}
 \qquad\newline
-Auch lassen sich die Funktionen einfach Verkürzen. 
-\begin{lstlisting}[language=Haskell]  
-Ungecurriede Version
-square :: Num a => a -> a
-square x = x^2
-
-Gecurriede Version
-square :: Num a => a -> a
-square' = (^2)
-\end{lstlisting}
 \section{if .. then .. else und Guards}
 Hier einfach ein Beispiel der gleichen Funktion einmal mit if .. then .. else Konstrukt und einmal als Guards (diese erinnern mich immer sehr stark an Switches) welche auch mit Pattern Matching zusammenarbeiten. Bei einem if .. then .. else Konstrukt muss immer ein else Teil angegeben werden. Da der Compiler sonst streikt. Denn Funktionen sollen ohne Nebeneffekte ausgeführt werden können. Und ein Vergessenes else führt zu nicht vorhersagbaren Nebeneffekten. 
 \begin{lstlisting}[language=Haskell]  
@@ -216,7 +208,7 @@ read :: (Read a) => String -> a
 \textbf{Num} ist eine numerische Typ Klasse. Ihr Mitglieder lasen sich wie Zahlen benutzen und verhalten sich so.\\
 \textbf{Enum} ist eine Typ Klasse, welche alle auf zählbaren / durchzunummerierende Sachen enthalten. dadurch lassen sich erst die unendlichen Listen darstellen. Auch können succ und pred als Funktionen auf dessen Mitglieder angewandt werden.  
 
-\subsection{Eigene Typklassen}\qquad\\
+\subsection{Eigene Typen}\qquad\\
 \textbf{type Name = AnotherType}\\ Damit kann man dem Kind AnotherType einen neuen Namen geben. Wenn man z.B. zwischen Nachname und Vorname unterscheiden möchte. Jedoch macht der Compiler hier keinen Unterschied. \\\qquad\\
 \textbf{data Name = NameConstructor AnotherType}\\ Hier macht der Compiler eine Unterscheidung. Der genaue Unterschied zwischen beiden type und data wird gleich an einem Beispiel erläutert.  \\\qquad\\
 \textbf{data} \\ Damit kann man sich rekursive Strukturen definieren.\\\qquad\\
@@ -278,7 +270,8 @@ Ergebnis: 7
 \end{lstlisting}\qquad\\
 Auf diese Art und Weise kann man sich beliebige Funktionen überall einbauen. Wodurch besonders foldl und foldr stark werden. 
 \section{Higher Order Functions}\qquad\\
-Als Higher Order Functions werden Funktionen bezeichnet welche eine Funktion als erstes Argument entgegennehmen.
+Als Higher Order Functions werden Funktionen bezeichnet welche eine Funktion als erstes Argument entgegennehmen.\\
+\qquad\\
 \textbf{map} \\
 nimmt eine Funktion und eine Liste entgegen und verwendet diese Funktion auf jedes Element der Liste und generiert so eine neue. 
 \begin{lstlisting}[language=Haskell]

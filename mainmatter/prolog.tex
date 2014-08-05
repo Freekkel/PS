@@ -22,7 +22,7 @@ In Prolog dreht sich alles um das erstellen von Wissensbasen und deren Auswertun
 Hinweis: YAP und andere Prolog Interpreter erkennen 'mia' = mia. An und geben Yes aus. Jedoch '2' = 2. wird immer mit einem No konfrontiert. 
 \subsection{Variablen}
 \begin{itemize}
-	\item Variablen beginnen mit A-Z oder \_ 
+	\item Variablen beginnen mit A-Z oder \_ (mit \_ sind Anonyme Variablen) 
 	\item bestehen aus den Zeichen a-z, A-Z, 0-9, \_
 \end{itemize}\newpage
 \section{Notation}
@@ -80,7 +80,7 @@ mod   Modulo
 $\backslash$/    bit-weises ODER  (| in C und C++)
 
 
-\subsection{Typtest}\qquad\\
+\subsection{Typtest (nice to know but not necessary)}\qquad\\
 Dies dient zur Bestimmung des Types der einzelnen Atome.\\
 atom/1 	Is the argument an atom?\\
 integer/1 	Is the argument an integer?\\
@@ -247,5 +247,5 @@ Yes.
 \end{lstlisting}
 Hier ist die Lösung offensichtlich Falsch, jedoch ist X=<Y richtig und danach erfolgt keine Prüfung mehr, auch nicht ob Y==Y ist. Dadurch ist hier die richtige und auch weitere Lösungen abgeschnitten. Also ein Roter Cut.\\
 
-\section{Status}\qquad\\
-Hier gibt es lediglich die Möglichkeit auf die Vorlesung zu verweisen, denn dort wurden alle Status aufgezeigt, in die der Affe kommen kann. Da dies lediglich ein Funktor ist, welcher ausgegeben und zu weiteren vergleichen genutzt wird, ist es kaum Sinnvoll in diesem Dokument darauf einzugehen. 
+\section{Zustände}\qquad\\
+Zustände werden gentuzt um einen Weg (im besten Fall den kürzesten) zum Ziel zu beschreiben. Solche Zustände sind z.B. die Funktoren state bei der Monkey Aufgabe aus der Vorlesung. Anhand von diesen kann Prolog, mit Hilfe der Resolution, den Weg finden und das Ergebnis ausgeben. 
