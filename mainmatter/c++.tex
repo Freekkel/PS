@@ -461,6 +461,177 @@ delete[] a; //free C-array a (square bracket syntax)
 	\item wenn die Elemente im Pointer gelöscht werden, sollte der Pointer auf nullptr gesetzt werden.
 \end{itemize}
 \section{Structs}
-\section{Complex Data Structures (Lists, Trees)}
-\section{Standard Containers and Algorithms}	
+\begin{itemize}
+	\item Type{arg1,arg2,...,argN}
+	\item arguments in order of member declaration
+	\item syntax also works for int, double, ...
+	\item copies of plain struct objects are always deep copies
+	\item use (const) references to avoid copies
+\end{itemize}
+\begin{lstlisting}[language=C++]
+struct Date { // description of data type Date
+	int year;
+	int month;
+	int day;
+};
 
+void print(const Date& d) {
+	cout << d.year << "-" << d.month << "-" << d.day << endl;
+}
+
+
+int main() {
+	Date d; // create new object of type Date
+	d.year = 2013; // set year to value 2013
+	d.month = 5; //set month to value 5
+	d.day = 15; //set day to value 15
+	
+	Date today {2014, 6, 25};
+	
+	auto yesterday = Date{2014, 6, 24};
+}
+
+\end{lstlisting}
+Value Semantics:\\deep copies (all data is copied)\\
+Reference Semantics:\\ shallow copies (references are copied)
+\section{Complex Data Structures}\qquad\\
+Hier wird nur eine komplette Baum Implementation gezeigt. Da Listen einfach sind als Bäume, sollte diese Implementation reichen. 
+\begin{lstlisting}[language=C++]
+struct Node {
+	int value;
+	Node* left;
+	Node* right;
+};
+
+Node* create_node(int value) {
+	return new Node {value, nullptr, nullptr};
+}
+
+void insert(Node* current, Node* newNode) {
+	if(newNode->value < current->value) {
+		if(!current->left)
+			current->left = newNode;
+		else
+			insert(current->left, newNode);
+	}
+	else {
+		if(!current->right)
+			current->right = newNode;
+		else
+			insert(current->right, newNode);
+	}
+	return;
+}
+void print_tree(Node* node)
+{
+	if(node->left)
+		printNode(node->left);
+		
+	cout << node->value << endl;
+	
+	if(node->right)
+		printNode(node->right);
+}
+void erase_tree(Node* node)
+{
+ 	if (node->left)
+ 		erase_tree(node->left);
+ 	if (node->right)
+ 		erase_tree(node->right);
+ 	delete node;
+}
+
+int main(){
+	const int listLen=1;
+	
+	srand(time(0));
+	
+	Node* root = createNode(50);
+	
+	for(int i = 0; i < listLen; i++){
+		int v = rand() %100; //  random number from [0,99]
+		insert(root,createNode(v));
+	}
+	
+	print_tree(root);
+	
+	erase_tree(root);
+}
+\end{lstlisting}
+\section{Standard Containers and Algorithms}\qquad\\
+Mit Dank an Leonie Pelle\\
+\subsection{Algorithmen}
+\begin{itemize}
+	\item Copy(firstIN, LastIN, firstOut)
+	\item Find(first, last, wert)
+	\begin{itemize}
+		\item First \& last sind pointer
+	\end{itemize}
+	\item Transform(first, last, out, f)
+	\item Sort(first, last)
+\end{itemize}
+\subsection{Includes}
+\begin{itemize}
+	\item \#include<iostream> 	für cin und cout
+	\item \#include <fstream>	instream \& outstream
+	\item \#include <string>	string verarbeitung
+	\item \#include<algorithm>	algorthimen
+\end{itemize}
+\subsection{Sequentielle Container}
+\begin{itemize}
+	\item Vector <T>
+	\begin{itemize}
+		\item Variable Liste
+		\item Vector<int> v {..,..}
+		\item V[0]
+		\item V.front()	first element
+		\item V.back()	last element
+		\item V.push\_back(…)	einfügen am ende
+		\item V.size()		größe
+		\item V.rezise(anzahl, wert) 		vergrößern auf anzahl und füllen mit wert
+		\item V.clear()	leeren
+		\item V.insert(begin(v), wert);	wert kann auch eine Menge sein
+		\item V.pop\_back()		löschen letztes element und speicher freigebe
+		\item V.erase(pointer)	löschen eines elements an der stelle
+		\item V.erase(pointer, pointer2)	löschen von pointer zu pointer2
+		\item V.assign(von, bis)	einfügen von bis		
+	\end{itemize}
+	\item Array<T,size>
+	\begin{itemize}
+		\item Feste liste
+		\item Wie vector
+	\end{itemize}
+	\item List<T>
+	\begin{itemize}
+		\item Doppelt verkettete liste
+		\item V.Splice(begin(v), k, begin(k), end(k)) 	einfügen von k (auch list) an der stele begin(v) von begin k bis end k (AUFPASSEN: die elemente warden aus k gelöscht)
+	\end{itemize}
+\end{itemize}
+\subsection{Assoziative Container}
+\begin{itemize}
+	\item Set<key>
+	\begin{itemize}
+		\item Key: 
+		\begin{itemize}
+			\item Eindeutig
+			\item Sortierbar
+		\end{itemize}
+		\item S.insert(…)	sortiertes einfügen
+		\item S.find(…)	finden (falls nicht gefunden Rückgabe von end s)
+	\end{itemize}
+	\item Map<key, value>
+	\begin{itemize}
+		\item Wie set
+		\item AUFPASSEN Aufruf von m[42] (42 ist ein nicht existenter key) wird angelegt mit einem leerem wert
+	\end{itemize}
+	\item Unordered\_set<key>
+	\begin{itemize}
+		\item Hashset
+		\item Key muss nicht sortierbar sein
+		\item Wie set
+	\end{itemize}
+	\item Unordered\_map<key, value>
+	\begin{itemize}
+		\item Wie unordered\_set<key>
+	\end{itemize}
+\end{itemize}
