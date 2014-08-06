@@ -245,7 +245,8 @@ max(X,_,X).
 ?- max(2,3,2).
 Yes.
 \end{lstlisting}
-Hier ist die Lösung offensichtlich Falsch, jedoch ist X=<Y richtig und danach erfolgt keine Prüfung mehr, auch nicht ob Y==Y ist. Dadurch ist hier die richtige und auch weitere Lösungen abgeschnitten. Also ein Roter Cut.\\
+Hier ist die Lösung offensichtlich Falsch, denn 3 $\neq$ 2, jedoch wird daraufhin die zweite Regel angewandt, welche die Anfrage mit Yes beantwortet. Daher sind weitere Lösungsmöglichkeiten abgeschnitten.\\
+$\Rightarrow$ roter Cut. 
 
 \section{Zustände}\qquad\\
 Zustände werden gentuzt um einen Weg (im besten Fall den kürzesten) zum Ziel zu beschreiben. Solche Zustände sind z.B. die Funktoren state bei der Monkey Aufgabe aus der Vorlesung. Anhand von diesen kann Prolog, mit Hilfe der Resolution, den Weg finden und das Ergebnis ausgeben. 
