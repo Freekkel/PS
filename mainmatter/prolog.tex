@@ -228,7 +228,7 @@ Wenn Prolog bei seiner Beweissuche den Cut (!) erreicht, dann können Entscheidu
 \subsection{Arten:}\qquad\\
 Ein grüner Cut schneidet Zweige des Suchbaumes ab, die keine Lösungen enthalten.\\
 Ein roter Cut schneidet Zweige des Suchbaumes ab, die Lösungen enthalten. Diesen Cut sollte man vermeiden.
-\subsection{Grüner Cut:}
+\subsection{Grüner Cut}
 \begin{lstlisting}[language=Prolog] 
 max(X,Y,Z) :- X =< Y, !, Z=Y.
 max(X,_,X).
